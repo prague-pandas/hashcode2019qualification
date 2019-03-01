@@ -5,6 +5,8 @@ import io
 import itertools
 import random
 
+import matplotlib.pyplot as plt
+import time
 from tqdm import tqdm
 
 salt_bits = 32
@@ -65,8 +67,18 @@ class Instance:
                 slides.add(Slide([photo]))
             else:
                 vertical_photos.add(photo)
+        vertical_slide_scores = []
+        plt.ion()
+        fig = plt.figure()
+        ax = fig.add_subplot(1, 1, 1)
         with tqdm(total=len(vertical_photos), desc='Pairing vertical photos') as pbar:
+            time_next = None
             while len(vertical_photos) >= 2:
+                if time_next is None or time.time() >= time_next:
+                    ax.clear()
+                    ax.hist(vertical_slide_scores)
+                    fig.canvas.draw()
+                    time_next = time.time() + 1
                 photo = vertical_photos.pop()
                 assert photo.vertical
                 best_score = 0
@@ -81,12 +93,19 @@ class Instance:
                 slides.add(Slide([photo, best_other]))
                 vertical_photos.remove(best_other)
                 pbar.update(2)
+                vertical_slide_scores.append(best_score)
+        plt.close()
         slideshow = []
         score_acc = 0
+        plt.ion()
+        fig = plt.figure()
+        ax = fig.add_subplot(1, 1, 1)
+        slideshow_scores = []
         with tqdm(total=len(slides), desc='Ordering slides') as pbar:
             cur = slides.pop()
             slideshow.append(cur)
             pbar.update(1)
+            time_next = None
             while len(slides) > 0:
                 best_score = 0
                 best_slide = None
@@ -104,6 +123,13 @@ class Instance:
                 slides.remove(best_slide)
                 score_acc = score_acc + best_score
                 pbar.update(1)
+                slideshow_scores.append(best_score)
+                if time_next is None or time.time() >= time_next:
+                    ax.clear()
+                    ax.hist(slideshow_scores)
+                    fig.canvas.draw()
+                    time_next = time.time() + 1
+        plt.close()
         # TODO: Improve slideshow by hillclimbing.
         solution = Solution(self, slideshow, score_acc)
         return solution
