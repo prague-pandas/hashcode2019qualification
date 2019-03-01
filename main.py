@@ -148,9 +148,9 @@ def main():
     # random.seed(0)
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('instance', nargs='+', type=argparse.FileType('r', encoding='utf_8'))
-    parser.add_argument('-s', type=int, default=256)
-    parser.add_argument('-v', type=int, default=256)
+    parser.add_argument('instance', nargs='+', type=argparse.FileType('r', encoding='utf_8'), help='input data set')
+    parser.add_argument('-s', type=int, default=256, help='sample size for slideshow ordering')
+    parser.add_argument('-v', type=int, default=256, help='sample size for vertical photo pairing')
     namespace = parser.parse_args()
 
     while True:
