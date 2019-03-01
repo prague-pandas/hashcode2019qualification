@@ -83,6 +83,7 @@ class Instance:
         cur = slides.pop()
         slideshow = [cur]
         score_acc = 0
+        transition_scores = []
         while len(slides) > 0:
             if len(slides) % 1000 == 0:
                 print(f'Slides remaining: {len(slides)}')
