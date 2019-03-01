@@ -5,7 +5,6 @@ import io
 import itertools
 import random
 
-
 salt_bits = 32
 
 
@@ -72,7 +71,7 @@ class Instance:
             best_score = 0
             best_other = None
             sample = itertools.islice(vertical_photos, sample_size_vertical_photos)
-            #sample = random.sample(vertical_photos, min(len(vertical_photos), sample_size_vertical_photos))
+            # sample = random.sample(vertical_photos, min(len(vertical_photos), sample_size_vertical_photos))
             for other in sample:
                 other_score = len(photo.tags | other.tags)
                 if other_score > best_score or best_other is None:
@@ -89,7 +88,7 @@ class Instance:
             best_score = 0
             best_slide = None
             sample = itertools.islice(slides, sample_size_slides)
-            #sample = random.sample(slides, min(len(slides), sample_size_slides))
+            # sample = random.sample(slides, min(len(slides), sample_size_slides))
             # TODO: Stop sampling as soon as we have reached a good score.
             for slide in sample:
                 interest = cur.interest(slide)
@@ -146,7 +145,7 @@ class Solution:
 
 
 def main():
-    #random.seed(0)
+    # random.seed(0)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('instance', nargs='+', type=argparse.FileType('r', encoding='utf_8'))
