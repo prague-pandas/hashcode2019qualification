@@ -4,5 +4,7 @@ Problem: Photo slideshow
 
 Team: Prague Pandas
 
-Hash Code competition web site:
-[codingcompetitions.withgoogle.com/hashcode](https://codingcompetitions.withgoogle.com/hashcode/)
+## Links
+
+* [Hash Code](https://codingcompetitions.withgoogle.com/hashcode/)
+* [Data set statistics](https://docs.google.com/spreadsheets/d/161ImQXt0-blghp4Appp8IgB1KC6MDHxHVQnIvxETcVg/edit?usp=sharing)
