@@ -181,6 +181,7 @@ def main():
     parser.add_argument('instance', nargs='+', type=argparse.FileType('r', encoding='utf_8'), help='input data set')
     parser.add_argument('-s', type=int, default=256, help='sample size for slideshow ordering')
     parser.add_argument('-v', type=int, default=256, help='sample size for vertical photo pairing')
+    parser.add_argument('--forever', type=bool, default=False, help='iterate forever?')
     namespace = parser.parse_args()
 
     while True:
@@ -194,6 +195,8 @@ def main():
 
             with open(f'{instance.name}.{solution.score}.out', 'w') as outfile:
                 solution.write(outfile)
+        if not namespace.forever:
+            break
 
 
 if __name__ == '__main__':
