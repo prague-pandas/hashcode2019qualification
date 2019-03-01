@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import functools
 import io
 import random
 import time
@@ -30,8 +29,15 @@ class Slide:
             self.tags = self.tags | photos[1].tags
 
     def interest(self, other):
-        # TODO: Stop computing as soon as one of the components is 0.
-        return min(len(self.tags & other.tags), len(self.tags - other.tags), len(other.tags - self.tags))
+        worst = len(self.tags & other.tags)
+        if worst == 0:
+            return 0
+        current = len(self.tags - other.tags)
+        if current < worst:
+            if current == 0:
+                return 0
+            worst = current
+        return min(worst, len(other.tags - self.tags))
 
 
 class Instance:
@@ -61,10 +67,11 @@ class Instance:
         slideshow = [cur]
         score_acc = 0
         while len(slides) > 0:
-            print(len(slides))
+            if len(slides) % 1000 == 0:
+                print(len(slides))
             best_score = 0
             best_slide = None
-            for slide in slides:
+            for slide in random.sample(slides, min(len(slides), 32)):
                 interest = cur.interest(slide)
                 if interest > best_score or best_slide is None:
                     best_score = interest
@@ -130,7 +137,7 @@ def main():
         # print(instance)
 
         solution = instance.solve()
-        #print(solution)
+        # print(solution)
         start = time.time()
         print(solution.score)
         print(str(time.time() - start))
