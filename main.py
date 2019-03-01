@@ -164,6 +164,19 @@ class Solution:
             prev = slide
         return res
 
+    def interests(self):
+        for i in range(len(self.slides) - 1):
+            yield self.slides[i].interest(self.slides[i+1])
+
+    def slide_tag_counts(self):
+        for slide in self.slides:
+            yield len(slide.tags)
+
+    def vertical_slide_tag_counts(self):
+        for slide in self.slides:
+            if len(slide.photos) >= 2:
+                yield len(slide.tags)
+
     def write(self, outfile):
         outfile.write(f'{len(self.slides)}\n')
         for slide in self.slides:
@@ -192,6 +205,14 @@ def main():
 
             solution = instance.solve(namespace.s, namespace.v)
             print(f'Solution score: {solution.score}')
+
+            plt.ioff()
+            plt.hist(list(solution.interests()))
+            plt.show()
+            plt.hist(list(solution.slide_tag_counts()))
+            plt.show()
+            plt.hist(list(solution.vertical_slide_tag_counts()))
+            plt.show()
 
             with open(f'{instance.name}.{solution.score}.out', 'w') as outfile:
                 solution.write(outfile)
