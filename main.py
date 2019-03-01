@@ -5,6 +5,8 @@ import io
 import itertools
 import random
 
+from tqdm import tqdm
+
 salt_bits = 32
 
 
@@ -63,43 +65,45 @@ class Instance:
                 slides.add(Slide([photo]))
             else:
                 vertical_photos.add(photo)
-        while len(vertical_photos) >= 2:
-            if len(vertical_photos) % 1000 == 0:
-                print(f'Vertical photos remaining: {len(vertical_photos)}')
-            photo = vertical_photos.pop()
-            assert photo.vertical
-            best_score = 0
-            best_other = None
-            sample = itertools.islice(vertical_photos, sample_size_vertical_photos)
-            # sample = random.sample(vertical_photos, min(len(vertical_photos), sample_size_vertical_photos))
-            for other in sample:
-                other_score = len(photo.tags | other.tags)
-                if other_score > best_score or best_other is None:
-                    best_score = other_score
-                    best_other = other
-            slides.add(Slide([photo, best_other]))
-            vertical_photos.remove(best_other)
-        cur = slides.pop()
-        slideshow = [cur]
+        with tqdm(total=len(vertical_photos), desc='Pairing vertical photos') as pbar:
+            while len(vertical_photos) >= 2:
+                photo = vertical_photos.pop()
+                assert photo.vertical
+                best_score = 0
+                best_other = None
+                sample = itertools.islice(vertical_photos, sample_size_vertical_photos)
+                # sample = random.sample(vertical_photos, min(len(vertical_photos), sample_size_vertical_photos))
+                for other in sample:
+                    other_score = len(photo.tags | other.tags)
+                    if other_score > best_score or best_other is None:
+                        best_score = other_score
+                        best_other = other
+                slides.add(Slide([photo, best_other]))
+                vertical_photos.remove(best_other)
+                pbar.update(2)
+        slideshow = []
         score_acc = 0
-        while len(slides) > 0:
-            if len(slides) % 1000 == 0:
-                print(f'Slides remaining: {len(slides)}')
-            best_score = 0
-            best_slide = None
-            sample = itertools.islice(slides, sample_size_slides)
-            # sample = random.sample(slides, min(len(slides), sample_size_slides))
-            # TODO: Stop sampling as soon as we have reached a good score.
-            for slide in sample:
-                interest = cur.interest(slide)
-                if interest > best_score or best_slide is None:
-                    best_score = interest
-                    best_slide = slide
-            assert (best_slide is not None)
-            slideshow.append(best_slide)
-            cur = best_slide
-            slides.remove(best_slide)
-            score_acc = score_acc + best_score
+        with tqdm(total=len(slides), desc='Ordering slides') as pbar:
+            cur = slides.pop()
+            slideshow.append(cur)
+            pbar.update(1)
+            while len(slides) > 0:
+                best_score = 0
+                best_slide = None
+                sample = itertools.islice(slides, sample_size_slides)
+                # sample = random.sample(slides, min(len(slides), sample_size_slides))
+                # TODO: Stop sampling as soon as we have reached a good score.
+                for slide in sample:
+                    interest = cur.interest(slide)
+                    if interest > best_score or best_slide is None:
+                        best_score = interest
+                        best_slide = slide
+                assert (best_slide is not None)
+                slideshow.append(best_slide)
+                cur = best_slide
+                slides.remove(best_slide)
+                score_acc = score_acc + best_score
+                pbar.update(1)
         # TODO: Improve slideshow by hillclimbing.
         solution = Solution(self, slideshow, score_acc)
         return solution
