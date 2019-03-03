@@ -7,6 +7,7 @@ Team: Prague Pandas
 ## Links
 
 * [Hash Code](https://codingcompetitions.withgoogle.com/hashcode/)
+    * [2019 Online Qualification Scoreboard](https://hashcodejudge.withgoogle.com/scoreboard)
 * [Data set statistics](https://docs.google.com/spreadsheets/d/161ImQXt0-blghp4Appp8IgB1KC6MDHxHVQnIvxETcVg/edit?usp=sharing)
 
 ## Description
@@ -36,3 +37,5 @@ sample of the slide population.
 * D: 375409
 * E: 313967
 * Total: 800521
+
+[Rank: 582 of 6671](https://hashcodejudge.withgoogle.com/scoreboard)
