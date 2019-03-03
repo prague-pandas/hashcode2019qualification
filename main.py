@@ -81,20 +81,23 @@ class Instance:
                     time_next = time.time() + 1
                 photo = vertical_photos.pop()
                 assert photo.vertical
-                # TODO: Minimize intersection instead of maximizing union.
-                best_score = 0
+                best_score = 101
                 best_other = None
                 sample = itertools.islice(vertical_photos, sample_size_vertical_photos)
                 # sample = random.sample(vertical_photos, min(len(vertical_photos), sample_size_vertical_photos))
                 for other in sample:
-                    other_score = len(photo.tags | other.tags)
-                    if other_score > best_score or best_other is None:
+                    other_score = len(photo.tags & other.tags)
+                    assert other_score < 101
+                    if other_score < best_score:
                         best_score = other_score
                         best_other = other
+                        if best_score <= 0:
+                            break
+                assert best_other is not None
                 slides.add(Slide([photo, best_other]))
                 vertical_photos.remove(best_other)
                 pbar.update(2)
-                vertical_slide_scores.append(best_score)
+                vertical_slide_scores.append(len(photo.tags | best_other.tags))
         plt.close()
         # TODO: Sort the slides by tag count and take them in decreasing order.
         slideshow = []
