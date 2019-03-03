@@ -207,7 +207,7 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('instance', nargs='+', type=argparse.FileType('r', encoding='utf_8'), help='input data set')
-    parser.add_argument('--solution', nargs='*', type=argparse.FileType('r', encoding='utf_8'), help='base solution')
+    parser.add_argument('--solution', nargs='*', type=argparse.FileType('r', encoding='utf_8'), default=[], help='base solution')
     parser.add_argument('-s', type=int, default=256, help='sample size for slideshow ordering')
     parser.add_argument('-v', type=int, default=256, help='sample size for vertical photo pairing')
     parser.add_argument('--forever', action='store_true', help='iterate forever')
