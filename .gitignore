@@ -1,2 +1,5 @@
 # main.py
 /data/*.out
+
+# PyCharm
+/.idea/
