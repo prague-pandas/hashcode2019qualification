@@ -208,7 +208,8 @@ def main():
     parser.add_argument('--solution', nargs='*', type=argparse.FileType('r', encoding='utf_8'), help='base solution')
     parser.add_argument('-s', type=int, default=256, help='sample size for slideshow ordering')
     parser.add_argument('-v', type=int, default=256, help='sample size for vertical photo pairing')
-    parser.add_argument('--forever', type=bool, default=False, help='iterate forever?')
+    parser.add_argument('--forever', action='store_true', help='iterate forever')
+    parser.add_argument('--histograms', action='store_true', help='display histograms')
     namespace = parser.parse_args()
 
     while True:
@@ -226,13 +227,14 @@ def main():
                 solution = Solution.read(infile_solution, instance)
             print(f'Solution score: {solution.score}')
 
-            plt.ioff()
-            plt.hist(list(solution.interests()))
-            plt.show()
-            plt.hist(list(solution.slide_tag_counts()))
-            plt.show()
-            plt.hist(list(solution.vertical_slide_tag_counts()))
-            plt.show()
+            if namespace.histograms:
+                plt.ioff()
+                plt.hist(list(solution.interests()))
+                plt.show()
+                plt.hist(list(solution.slide_tag_counts()))
+                plt.show()
+                plt.hist(list(solution.vertical_slide_tag_counts()))
+                plt.show()
 
             with open(f'{instance.name}.{solution.score}.out', 'w') as outfile:
                 solution.write(outfile)
