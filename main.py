@@ -81,6 +81,7 @@ class Instance:
                     time_next = time.time() + 1
                 photo = vertical_photos.pop()
                 assert photo.vertical
+                # TODO: Minimize intersection instead of maximizing union.
                 best_score = 0
                 best_other = None
                 sample = itertools.islice(vertical_photos, sample_size_vertical_photos)
@@ -95,6 +96,7 @@ class Instance:
                 pbar.update(2)
                 vertical_slide_scores.append(best_score)
         plt.close()
+        # TODO: Sort the slides by tag count and take them in decreasing order.
         slideshow = []
         score_acc = 0
         plt.ion()
