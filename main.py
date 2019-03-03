@@ -203,8 +203,6 @@ class Solution:
 
 
 def main():
-    # random.seed(0)
-
     parser = argparse.ArgumentParser()
     parser.add_argument('instance', nargs='+', type=argparse.FileType('r', encoding='utf_8'), help='input data set')
     parser.add_argument('--solution', nargs='*', type=argparse.FileType('r', encoding='utf_8'), default=[], help='base solution')
