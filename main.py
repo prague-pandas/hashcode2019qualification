@@ -190,24 +190,40 @@ class Solution:
             outfile.write(' '.join(map(str, ids)))
             outfile.write('\n')
 
+    @staticmethod
+    def read(infile, instance):
+        S = int(next(infile))
+        slides = []
+        for i, line in zip(range(S), infile):
+            photos = [instance.photos[photo_id] for photo_id in map(int, line.split())]
+            slides.append(Slide(photos))
+        return Solution(instance, slides=slides)
+
 
 def main():
     # random.seed(0)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('instance', nargs='+', type=argparse.FileType('r', encoding='utf_8'), help='input data set')
+    parser.add_argument('--solution', nargs='*', type=argparse.FileType('r', encoding='utf_8'), help='base solution')
     parser.add_argument('-s', type=int, default=256, help='sample size for slideshow ordering')
     parser.add_argument('-v', type=int, default=256, help='sample size for vertical photo pairing')
     parser.add_argument('--forever', type=bool, default=False, help='iterate forever?')
     namespace = parser.parse_args()
 
     while True:
-        for infile in namespace.instance:
+        for infile, infile_solution in itertools.zip_longest(namespace.instance, namespace.solution):
+            if infile is None:
+                continue
             print(f'Input file: {infile.name}')
             infile.seek(0)
             instance = Instance(infile)
 
-            solution = instance.solve(namespace.s, namespace.v)
+            if infile_solution is None:
+                solution = instance.solve(namespace.s, namespace.v)
+            else:
+                infile_solution.seek(0)
+                solution = Solution.read(infile_solution, instance)
             print(f'Solution score: {solution.score}')
 
             plt.ioff()
