@@ -172,10 +172,14 @@ class Solution:
         for slide in self.slides:
             yield len(slide.tags)
 
-    def vertical_slide_tag_counts(self):
+    def vertical_slides(self):
         for slide in self.slides:
             if len(slide.photos) >= 2:
-                yield len(slide.tags)
+                yield slide
+
+    def vertical_slide_tag_counts(self):
+        for slide in self.vertical_slides():
+            yield len(slide.tags)
 
     def write(self, outfile):
         outfile.write(f'{len(self.slides)}\n')
