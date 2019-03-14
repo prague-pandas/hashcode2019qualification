@@ -7,7 +7,7 @@ Team: Prague Pandas
 ## Links
 
 * [Hash Code](https://codingcompetitions.withgoogle.com/hashcode/)
-    * [2019 Online Qualification Scoreboard](https://hashcodejudge.withgoogle.com/scoreboard)
+    * [2019 Online Qualification Scoreboard](https://codingcompetitions.withgoogle.com/hashcode/archive/2019)
 * [Data set statistics](https://docs.google.com/spreadsheets/d/161ImQXt0-blghp4Appp8IgB1KC6MDHxHVQnIvxETcVg/edit?usp=sharing)
 
 ## Description
