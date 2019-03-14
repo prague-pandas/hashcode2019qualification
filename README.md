@@ -38,4 +38,4 @@ sample of the slide population.
 * E: 313967
 * Total: 800521
 
-[Rank: 582 of 6671](https://hashcodejudge.withgoogle.com/scoreboard)
+[Rank: 582 of 6671](https://codingcompetitions.withgoogle.com/hashcode/archive/2019)
