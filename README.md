@@ -1,12 +1,13 @@
 # Hash Code 2019 Online Qualification Round Solution
 
-Problem: Photo slideshow
+Problem: [Photo slideshow](https://storage.googleapis.com/coding-competitions.appspot.com/HC/2019/hashcode2019_qualification_task.pdf)
 
 Team: Prague Pandas
 
 ## Links
 
 * [Hash Code](https://codingcompetitions.withgoogle.com/hashcode/)
+    * [Archive](https://codingcompetitions.withgoogle.com/hashcode/archive)
     * [2019 Online Qualification Scoreboard](https://codingcompetitions.withgoogle.com/hashcode/archive/2019)
 * [Data set statistics](https://docs.google.com/spreadsheets/d/161ImQXt0-blghp4Appp8IgB1KC6MDHxHVQnIvxETcVg/edit?usp=sharing)
 
